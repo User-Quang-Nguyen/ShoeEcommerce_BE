@@ -6,7 +6,7 @@ const qs = require('qs');
 const OrderService = require("../services/orderService");
 
 const embed_data = {
-    redirecturl: "http://localhost:3030/order"
+    redirecturl: "https://superb-sable-0f5703.netlify.app/order"
 };
 
 const config = {
@@ -33,7 +33,7 @@ async function payment(req, res) {
         amount: 50000,
         description: `Lazada - Payment for the order #${transID}`,
         bank_code: "",
-        callback_url: "http://13.54.12.149/payment/callback",
+        callback_url: "http://13.54.12.149:5000/payment/callback",
     };
 
     const data = config.app_id + "|" + order.app_trans_id + "|" + order.app_user + "|" + order.amount + "|" + order.app_time + "|" + order.embed_data + "|" + order.item;
