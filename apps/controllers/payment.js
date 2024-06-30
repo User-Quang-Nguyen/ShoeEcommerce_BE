@@ -25,13 +25,13 @@ async function payment(req, res) {
 
     const order = {
         app_id: config.app_id,
-        app_trans_id: `${moment().format('YYMMDD')}_${transID}`, // translation missing: vi.docs.shared.sample_code.comments.app_trans_id
+        app_trans_id: `${moment().format('YYMMDD')}_${transID}`,
         app_user: "user123",
         app_time: Date.now(), // miliseconds
         item: JSON.stringify(items),
         embed_data: JSON.stringify(embed_data),
         amount: 50000,
-        description: `Lazada - Payment for the order #${transID}`,
+        description: `Payment for the order #${transID}`,
         bank_code: "",
         callback_url: "https://shoe.io.vn/payment/callback",
     };
@@ -45,6 +45,7 @@ async function payment(req, res) {
         return res.status(200).json(result.data);
     } catch (error) {
         console.log(error);
+        return res.status(500).json(error.message);
     }
 }
 
@@ -102,6 +103,7 @@ async function checkPayment(req, res) {
         return res.status(200).json(result.data);
     } catch (error) {
         console.log(error.message);
+        return res.status(500).json(error.message);
     }
 }
 
