@@ -11,9 +11,13 @@ async function addToOrderTable(req, res) {
         const userid = infor.id;
         const cartInfor = await CartService.getCartData(userid);
         const items = cartInfor.items;
+        if (items.length == 0) {
+            return res.status(400).json({ message: "Giỏ hàng trống", status: false })
+        }
         await OrderService.order(userid, items);
         return res.status(200).json({ message: "Đặt hàng thành công", status: true });
     } catch (err) {
+        console.log(err);
         return res.status(400).json({ message: err.message, status: false })
     }
 }

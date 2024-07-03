@@ -22,7 +22,8 @@ function getCartItemByUser(cartid) {
 async function getCartData(userid) {
     try {
         const cart = await getCartByUser(userid);
-        if (cart.length === 0) return { items: [] };
+        if (cart.length == 0) 
+            return { items: [] };
         const cartshoe = await getCartItemByUser(cart[0].id);
         const shoes = await Promise.all(cartshoe.map(async (shoe, index) => {
             console.log(shoe);

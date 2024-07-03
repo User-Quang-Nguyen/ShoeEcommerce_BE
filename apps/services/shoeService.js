@@ -66,7 +66,6 @@ async function getAllItems() {
 async function getAllItemsDetail() {
     try {
         const shoes = await getAllItems();
-        console.log(shoes);
         const idList = shoes.map(shoe => shoe.id);
         const items = await Promise.all(idList.map(async (id) => {
             const detail = await getItemById(id);
@@ -140,45 +139,20 @@ async function insertShoe(formData) {
     })
 }
 
-// async function insertFullShoe(formData) {
-//     try {
-//         const shoe = await insertShoe(formData);
-//         const shoeid = shoe.rows[0].id;
-//         const categories = formData.category;
-//         if (categories && categories.length > 0) {
-//             categories.forEach(async (category) => {
-//                 await CategoryService.insertCategoryShoe(shoeid, category);
-//             });
-//         }
-//         return true;
-//     } catch (error) {
-//         throw new Error(error.message);
-//     }
-// }
-async function insertFullShoe(req, res) {
-    upload.single('image')(req, res, async (err) => {
-        if (err) {
-            return res.status(500).json({ message: err.message });
+async function insertFullShoe(formData) {
+    try {
+        const shoe = await insertShoe(formData);
+        const shoeid = shoe.rows[0].id;
+        const categories = formData.category;
+        if (categories && categories.length > 0) {
+            categories.forEach(async (category) => {
+                await CategoryService.insertCategoryShoe(shoeid, category);
+            });
         }
-
-        const formData = req.body;
-        formData.image = req.file ? `/uploads/${req.file.filename}` : null;
-
-        try {
-            const shoe = await insertShoe(formData);
-            const shoeid = shoe.rows[0].id;
-            const categories = formData.category;
-
-            if (categories && categories.length > 0) {
-                categories.forEach(async (category) => {
-                    await CategoryService.insertCategoryShoe(shoeid, category);
-                });
-            }
-            res.status(200).json({ message: "Thêm sản phẩm thành công", state: true });
-        } catch (error) {
-            res.status(500).json({ message: error.message });
-        }
-    });
+        return true;
+    } catch (error) {
+        throw new Error(error.message);
+    }
 }
 
 async function insertShoeDetail(formData) {
