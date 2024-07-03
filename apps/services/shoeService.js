@@ -1,7 +1,6 @@
 const Shoe = require("../models/shoe");
 const BrandService = require("../services/brandService");
 const CategoryService = require("../services/categoryService");
-const upload = require("./upload");
 
 function getItemsAsync(startIndex, endIndex) {
     return new Promise((resolve, reject) => {
